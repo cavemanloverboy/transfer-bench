@@ -1,5 +1,4 @@
 use criterion::{criterion_group, criterion_main, Criterion, Throughput};
-use nanotoken::ix::{Tag, TransferArgs};
 use solana_sdk::{
     instruction::{AccountMeta, Instruction},
     native_token::LAMPORTS_PER_SOL,
@@ -33,12 +32,9 @@ fn nano(c: &mut Criterion) {
 
     // Transfer instruction
     // transfer fast path
-    let mut ix_data = vec![0; 8 + TransferArgs::size()];
+    let mut ix_data = vec![0; 12];
     {
-        ix_data[0..8].copy_from_slice(&(Tag::Transfer as u64).to_le_bytes());
-        let TransferArgs { amount } =
-            bytemuck::try_from_bytes_mut(&mut ix_data[8..8 + TransferArgs::size()]).unwrap();
-        *amount = 5;
+        ix_data[0..8].copy_from_slice(&1_u64.to_le_bytes());
     }
     let accounts = vec![
         // transfer
