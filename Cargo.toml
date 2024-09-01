@@ -1,0 +1,32 @@
+[package]
+name = "transfer-bench"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+bytemuck = "1.17.1"
+litesvm = "0.1.0"
+# nanotoken = { git = "https://github.com/cavemanloverboy/nanotoken", branch = "fast-one" }
+nanotoken = { path = "../nanospl/nanotoken/" }
+solana-sdk = "1.18"
+solana-program = "1.18"
+spl-token = "4.0.1"
+
+[dev-dependencies]
+criterion = "0.5.1"
+
+[profile.release]
+lto = "thin"
+codegen-units = 1
+
+[[bench]]
+name = "nano"
+harness = false
+
+[[bench]]
+name = "spl"
+harness = false
+
+[[bench]]
+name = "native"
+harness = false
